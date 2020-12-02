@@ -1,3 +1,29 @@
+<?php
+
+if (isset($_GET["name"]) && isset($_GET["comment"])) {
+
+  $fp = fopen("input_data.txt", "a+");
+  
+  $time = date("Y-m-d H:i:s");
+  $name = $_GET["name"];
+  $comment = $_GET["comment"];
+
+  $last_line;//最後の行を取得
+  while ($line = fgets($fp)) {
+    $last_line = $line;
+  }
+
+  $last_elements = explode("<>", $last_line);
+  $last_index = $last_elements[0];
+  $index = $last_index + 1;//最後の行のindex+1
+  
+  $text_mergred = $index . "<>" . $name . "<>" . $comment . "<>" . $time;
+  fwrite($fp, $text_mergred . PHP_EOL);
+  fclose($fp);
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
   <head>
