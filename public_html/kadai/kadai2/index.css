@@ -8,8 +8,7 @@ h1 {
 }
 
 form {
-  position: relative;
-  height: 150px;
+  min-height: 150px;
 }
 
 .form-element {
@@ -32,8 +31,21 @@ form {
   height: 20px;
 }
 
+.set_btn {
+  position: relative;
+  padding-bottom: 20px;
+}
+
 .btn-submit {
   position: absolute;
   bottom: 0;
   left: 50%;
+}
+
+.comment_lineup {
+  text-align: left;
+  margin: 10px auto 0;
+  width: 600px;
+  border: 1px solid #000000;
+  border-radius: 10px;
 }
