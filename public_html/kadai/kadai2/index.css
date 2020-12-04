@@ -11,6 +11,10 @@ form {
   min-height: 150px;
 }
 
+.form_mini {
+  min-height: 50px;
+}
+
 .form-element {
   width: 300px;
   height: 50px;
@@ -40,6 +44,7 @@ form {
   position: absolute;
   bottom: 0;
   left: 50%;
+  cursor: pointer;
 }
 
 .comment_lineup {
