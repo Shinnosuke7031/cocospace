@@ -21,8 +21,9 @@ if (isset($_POST["name"]) && isset($_POST["comment"])) {
           $index = $elements[0];
           $edit_name = $elements[1];
           $edit_comment = $elements[2];
+          $edit_pass = $elements[4];
           if ($index == $edit_id) {
-            $edited_line = $index . "<>" . $name . "<>" . $comment . "<>" . $time . PHP_EOL;
+            $edited_line = $index . "<>" . $name . "<>" . $comment . "<>" . $time . "<>" . $edit_pass . PHP_EOL;
             array_push($data, $edited_line);
           } else {
             array_push($data, $line);
@@ -39,7 +40,7 @@ if (isset($_POST["name"]) && isset($_POST["comment"])) {
       
       $fp = fopen("input_data_with_password.txt", "w");
       fwrite($fp, $text_merge);
-      fclose($fp);
+      fclose($fp);  
       
       $_normalAddMode = false;
       $isEditMode = 0;
@@ -80,17 +81,23 @@ if (isset($_POST["name"]) && isset($_POST["comment"])) {
 }
 
 /////////////////// 指定された番号のコメントを削除 ////////////////
-if (isset($_POST["delete_number"])) {
+if (isset($_POST["delete_number"]) && isset($_POST["password_delete"])) {
 
   $delete_number = $_POST["delete_number"];
   $fp = fopen("input_data_with_password.txt", "r");
   $deta = [];//削除番号以外の各行のデータ
 
+  $password_delete = $_POST["password_delete"];
+  $password_delete_check = "";
+
   while ($line = fgets($fp)) {
     if (isset($line)) {//ファイルが空白ではない時
       $elements = explode("<>", $line);
       $index = $elements[0];
-      if ($index != $delete_number) {
+      $delete_pass = $elements[4];
+      if ($index == $delete_number) {
+        $password_delete_check = str_replace(PHP_EOL, '', $delete_pass);
+      } else {
         array_push($deta, $line);
       }
     }
@@ -102,34 +109,44 @@ if (isset($_POST["delete_number"])) {
   foreach ($deta as $ele) {
     $text_merge .= $ele;
   }
-  
-  $fp = fopen("input_data_with_password.txt", "w");
-  fwrite($fp, $text_merge);
-  fclose($fp);
+
+  if ($password_delete == $password_delete_check) {
+    $fp = fopen("input_data_with_password.txt", "w");
+    fwrite($fp, $text_merge);
+    fclose($fp);
+  }
+  else echo "<script type='text/javascript'>alert('パスワードが違います。');</script>"; 
 }
 
 /////////////////// 指定された番号のコメントを表示(edit) ////////////////
-if (isset($_POST["edit_number"])) {
+if (isset($_POST["edit_number"]) && isset($_POST["password_edit"])) {
   
+  $password_edit = $_POST["password_edit"];
+  $password_edit_check = "";
+
   $edit_number = $_POST["edit_number"];
-  $isEditMode = $edit_number;
   $fp = fopen("input_data_with_password.txt", "r");
   $deta = [];//削除番号以外の各行のデータ
-
+  
   while ($line = fgets($fp)) {
     if (isset($line)) {//ファイルが空白ではない時
       $elements = explode("<>", $line);
       $index = $elements[0];
       $edit_name = $elements[1];
       $edit_comment = $elements[2];
+      $edit_pass = $elements[4];
       if ($index == $edit_number) {
-        // echo $line;
         $name_form = $edit_name;
         $comment_form = $edit_comment;
+        $password_edit_check = str_replace(PHP_EOL, '', $edit_pass);
+        $password_form = $password_edit_check;
       }
     }
   }
   fclose($fp);
+  if ($password_edit == $password_edit_check) $isEditMode = $edit_number;
+  else echo "<script type='text/javascript'>alert('パスワードが違います。');</script>";
+
 }
 
 
@@ -164,7 +181,9 @@ if (isset($_POST["edit_number"])) {
       </div>
       <div class="form-element set_btn">
         <p>パスワード：</p>
-        <input type="text" name="password">
+        <input type="password" name="password" value=<?php
+          if ($isEditMode) echo $password_form;
+          else echo ""; ?> >
         <button class="btn-submit" type="submit">送信</button>
       </div>
       <div class="comment_lineup">
@@ -191,7 +210,7 @@ if (isset($_POST["edit_number"])) {
       </div>
       <div class="form-element set_btn">
         <p>パスワード：</p>
-        <input type="text" name="password">
+        <input type="password" name="password_delete">
         <button class="btn-submit" type="submit">削除</button>
       </div>
     </form>
@@ -202,7 +221,7 @@ if (isset($_POST["edit_number"])) {
       </div>
       <div class="form-element set_btn">
         <p>パスワード：</p>
-        <input type="text" name="password">
+        <input type="password" name="password_edit">
         <button class="btn-submit" type="submit">番号を指定</button>
       </div>
     </form>
