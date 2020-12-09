@@ -65,6 +65,17 @@ if (isset($_POST["delete_number"])) {
     <meta charset="UFT-8">
     <title>簡易掲示板</title>
     <link rel="stylesheet" type="text/css" href="index.css">
+    <script type="text/javascript">
+      function check(){
+      	if(confirm('削除してよろしいですか？')){
+      		return true;
+      	}
+      	else{
+      		alert('キャンセルされました');
+      		return false;
+      	}
+      }
+    </script>
   </head>
 <body>
   <div class="container">
@@ -95,7 +106,7 @@ if (isset($_POST["delete_number"])) {
           ?>
       </div>
     </form>
-    <form action="kadai2_4.php" method="post">
+    <form action="kadai2_4.php" method="post" onsubmit="return check()">
       <div class="form-element set_btn">
         <p>削除番号：</p><input type="number" name="delete_number" />
         <button class="btn-submit" type="submit">削除</button>

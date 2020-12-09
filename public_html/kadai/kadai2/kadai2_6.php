@@ -158,6 +158,17 @@ if (isset($_POST["edit_number"]) && isset($_POST["password_edit"])) {
     <meta charset="UFT-8">
     <title>簡易掲示板</title>
     <link rel="stylesheet" type="text/css" href="index.css">
+    <script type="text/javascript">
+      function check(){
+      	if(confirm('削除してよろしいですか？')){
+      		return true;
+      	}
+      	else{
+      		alert('キャンセルされました');
+      		return false;
+      	}
+      }
+    </script>
   </head>
 <body>
   <div class="container">
@@ -204,7 +215,7 @@ if (isset($_POST["edit_number"]) && isset($_POST["password_edit"])) {
           ?>
       </div>
     </form>
-    <form class="form_mini" action="kadai2_6.php" method="post">
+    <form class="form_mini" action="kadai2_6.php" method="post" onsubmit="return check()">
       <div class="form-element">
         <p>削除番号：</p><input type="number" name="delete_number">
       </div>

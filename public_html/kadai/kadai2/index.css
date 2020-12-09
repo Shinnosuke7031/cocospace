@@ -55,3 +55,19 @@ form {
   border: 1px solid #000000;
   border-radius: 10px;
 }
+
+.info {
+  display: flex;
+}
+
+.main_info {
+  width: 600px;
+}
+
+.time_info {
+  width: 180px;
+}
+
+.ex {
+  border-bottom: 1px dotted #000000;
+}

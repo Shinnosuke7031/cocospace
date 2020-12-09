@@ -1,5 +1,5 @@
 <?php
-
+//http://co-19-301.99sv-coco.com/kadai/kadai2/kadai2_advanced_level.php
 $dsn      = 'mysql:dbname=co_19_301_99sv_coco_com;host=localhost';
 $user     = 'co-19-301.99sv-coco_c';
 $password_db = 'Em4kxvSU';
@@ -14,46 +14,30 @@ try{
 }
 
 $isEditMode = 0;
+$edit_id = 0;
 /////////////////// 入力された名前とコメントのデータを取得 ////////////////
 if (isset($_POST["name"]) && isset($_POST["comment"])) {
   if($_POST["name"] != "" && $_POST["comment"] != "") {
 
     $_normalAddMode = true;
-    $edit_id = $_POST["JugeEditMode_inInputForm"];
+    $edit_id = $_POST["edit_id"];
     
     if ($edit_id) {
-      $fp = fopen("input_data_with_password.txt", "r");
-      $data = [];//削除番号以外の各行のデータ
       $time = date("Y-m-d H:i:s");
       $name = $_POST["name"];
       $comment = $_POST["comment"];
-      
-      while ($line = fgets($fp)) {
-        if (isset($line)) {//ファイルが空白ではない時
-          $elements = explode("<>", $line);
-          $index = $elements[0];
-          $edit_name = $elements[1];
-          $edit_comment = $elements[2];
-          $edit_pass = $elements[4];
-          if ($index == $edit_id) {
-            $edited_line = $index . "<>" . $name . "<>" . $comment . "<>" . $time . "<>" . $edit_pass . PHP_EOL;
-            array_push($data, $edited_line);
-          } else {
-            array_push($data, $line);
-          }
-        }
+      $password = $_POST["password"];
+
+      try {
+        // クエリの作成(UPDATE)
+        $query = 'UPDATE kadai2_MySQL_TEST SET name = :name, comment = :comment, time = :time, password = :password WHERE id = :id';
+        $stmt = $dbh->prepare($query);
+        // 実行
+        $stmt->execute(array(':name' => $name, ':comment' => $comment, ':time' => $time, ':password' => $password, ':id' => $edit_id));
+      }catch(PDOException $e){
+        print("データベースの接続に失敗しました");
+        die();
       }
-      fclose($fp);
-      
-      $text_merge = "";
-      
-      foreach ($data as $ele) {
-        $text_merge .= $ele;
-      }
-      
-      $fp = fopen("input_data_with_password.txt", "w");
-      fwrite($fp, $text_merge);
-      fclose($fp);  
       
       $_normalAddMode = false;
       $isEditMode = 0;
@@ -62,30 +46,31 @@ if (isset($_POST["name"]) && isset($_POST["comment"])) {
     if ($_normalAddMode) {
       if($_POST["password"] != "") {
 
-        $fp = fopen("input_data_with_password.txt", "a+");
+        // $fp = fopen("input_data_with_password.txt", "a+");
         
         $time = date("Y-m-d H:i:s");
         $name = $_POST["name"];
         $comment = $_POST["comment"];
         $password = $_POST["password"];
+        try{
+          $dbh = new PDO($dsn, $user, $password_db);
+          $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+          // クエリの作成(INSERT)
+          $query = 'INSERT INTO kadai2_MySQL_TEST(name, comment, time, password) VALUES(:name, :comment, :time, :password)';
+          $stmt = $dbh->prepare($query);
+                
+          $stmt -> bindValue(':name', $name, PDO::PARAM_STR_CHAR);
+          $stmt -> bindValue(':comment', $comment, PDO::PARAM_STR_CHAR);
+          $stmt -> bindValue(':time', (string)$time, PDO::PARAM_STR_CHAR);
+          $stmt -> bindValue(':password', $password, PDO::PARAM_STR_CHAR);
+                
+          // 実行
+          $stmt->execute();
         
-        $last_line;//最後の行を取得
-        while ($line = fgets($fp)) {
-          $last_line = $line;
+        }catch(PDOException $e){
+          print("データベースの接続に失敗しました");
+          die();
         }
-        
-        $last_elements = [];//最後の行の各要素
-        $index = 1;
-        
-        if (isset($last_line)) {//ファイルが空白ではない時，最後の行のindexを参照する
-          $last_elements = explode("<>", $last_line);
-          $last_index = $last_elements[0];
-          $index = $last_index + 1;//最後の行のindex+1
-        }
-        
-        $text_mergred = $index . "<>" . $name . "<>" . $comment . "<>" . $time . "<>" . $password;
-        fwrite($fp, $text_mergred . PHP_EOL);
-        fclose($fp);
       }
     }
     
@@ -97,38 +82,45 @@ if (isset($_POST["name"]) && isset($_POST["comment"])) {
 if (isset($_POST["delete_number"]) && isset($_POST["password_delete"])) {
 
   $delete_number = $_POST["delete_number"];
-  $fp = fopen("input_data_with_password.txt", "r");
-  $deta = [];//削除番号以外の各行のデータ
 
   $password_delete = $_POST["password_delete"];
   $password_delete_check = "";
-
-  while ($line = fgets($fp)) {
-    if (isset($line)) {//ファイルが空白ではない時
-      $elements = explode("<>", $line);
-      $index = $elements[0];
-      $delete_pass = $elements[4];
-      if ($index == $delete_number) {
-        $password_delete_check = str_replace(PHP_EOL, '', $delete_pass);
-      } else {
-        array_push($deta, $line);
-      }
+  try {
+    // 入力された番号に対応したidを見つける
+    $query = 'SELECT * FROM kadai2_MySQL_TEST';
+    $stmt = $dbh->query($query);
+    $count = 0;
+    $delete_id = 0;
+    while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+      $count++;
+      $id = $row["id"];
+      if ($delete_number == $count) $delete_id = $id;
     }
-  }
-  fclose($fp);
 
-  $text_merge = "";
+    // クエリの実行(SELECT)
+    $query = 'SELECT * FROM kadai2_MySQL_TEST WHERE id =' . $delete_id;
+    $stmt = $dbh->query($query);
+    // チェック用のPassword
+    while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+      $password_delete_check = $row["password"];
+    }
+  
+    if ($password_delete == $password_delete_check) {
+      // クエリの作成(DELETE)
+      $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $query = 'DELETE FROM kadai2_MySQL_TEST WHERE id = :id';
+      $stmt = $dbh->prepare($query);
+      // 実行
+      $stmt->execute(array(':id' => $delete_id));
 
-  foreach ($deta as $ele) {
-    $text_merge .= $ele;
-  }
+    }
+    else if ($password_delete_check == "") echo "<script type='text/javascript'>alert('対象のコメントがありません。');</script>"; 
+    else echo "<script type='text/javascript'>alert('パスワードが違います。');</script>"; 
 
-  if ($password_delete == $password_delete_check) {
-    $fp = fopen("input_data_with_password.txt", "w");
-    fwrite($fp, $text_merge);
-    fclose($fp);
+  }catch(PDOException $e){
+    print("データベースの接続に失敗しました");
+    die();
   }
-  else echo "<script type='text/javascript'>alert('パスワードが違います。');</script>"; 
 }
 
 /////////////////// 指定された番号のコメントを表示(edit) ////////////////
@@ -138,27 +130,37 @@ if (isset($_POST["edit_number"]) && isset($_POST["password_edit"])) {
   $password_edit_check = "";
 
   $edit_number = $_POST["edit_number"];
-  $fp = fopen("input_data_with_password.txt", "r");
-  $deta = [];//削除番号以外の各行のデータ
-  
-  while ($line = fgets($fp)) {
-    if (isset($line)) {//ファイルが空白ではない時
-      $elements = explode("<>", $line);
-      $index = $elements[0];
-      $edit_name = $elements[1];
-      $edit_comment = $elements[2];
-      $edit_pass = $elements[4];
-      if ($index == $edit_number) {
-        $name_form = $edit_name;
-        $comment_form = $edit_comment;
-        $password_edit_check = str_replace(PHP_EOL, '', $edit_pass);
-        $password_form = $password_edit_check;
-      }
+
+  try {
+    // 入力された番号に対応したidを見つける
+    $query = 'SELECT * FROM kadai2_MySQL_TEST';
+    $stmt = $dbh->query($query);
+    $count = 0;
+    $edit_id = 0;
+    while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+      $count++;
+      $id = $row["id"];
+      if ($count == $edit_number) $edit_id = $id;
     }
+
+    $query = 'SELECT * FROM kadai2_MySQL_TEST WHERE id = ' . $edit_id;
+    $stmt = $dbh->query($query);
+  
+    while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+      $name_form = $row["name"];
+      $comment_form = $row["comment"];
+      $password_form = $row["password"];
+      $password_edit_check = $row["password"];
+    }
+     
+    if ($password_edit == $password_edit_check) $isEditMode = $edit_id;
+    else if ($password_delete_check == "") echo "<script type='text/javascript'>alert('対象のコメントがありません。');</script>"; 
+    else echo "<script type='text/javascript'>alert('パスワードが違います。');</script>";
+
+  }catch(PDOException $e){
+    print("データベースの接続に失敗しました");
+    die();
   }
-  fclose($fp);
-  if ($password_edit == $password_edit_check) $isEditMode = $edit_number;
-  else echo "<script type='text/javascript'>alert('パスワードが違います。');</script>";
 
 }
 
@@ -190,6 +192,7 @@ $dbh = null;
     <h1>簡易掲示板</h1>
     <form action="kadai2_advanced_level.php" method="post">
       <input type="hidden" value=<?php echo $isEditMode; ?> name="JugeEditMode_inInputForm">
+      <input type="hidden" value=<?php echo $edit_id; ?> name="edit_id" >
       <div class="form-element">
         <p>名前：</p>
         <input type="text" name="name" value=<?php
@@ -209,15 +212,19 @@ $dbh = null;
         <input type="password" name="password" value=<?php
           if ($isEditMode) echo $password_form;
           else echo ""; ?> >
-        <button class="btn-submit" type="submit">送信</button>
+        <button class="btn-submit" type="submit">投稿</button>
       </div>
       <div class="comment_lineup">
         <?php 
+          echo '<div class="info ex">';
+          echo '<p class="main_info">ID : id, <span style="font-weight: bold;"> 名前 </span><span style="font-weight: bold;">「コメント」</span> </p><p class="time_info">時間</p>';
+          echo "</div>";
+          $count = 1;
           try{
             $dbh = new PDO($dsn, $user, $password_db);
             $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             // クエリの実行(SELECT)
-            $query = "SELECT * FROM kadai2_MySQL_TEST";
+            $query = 'SELECT * FROM kadai2_MySQL_TEST';
             $stmt = $dbh->query($query);          
             // 表示処理
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -226,9 +233,10 @@ $dbh = null;
               $comment = $row["comment"];
               $time = $row["time"];
       
-              echo "<p>";
-              echo "ID : " . $id . ' / <span style="font-weight: bold;">' . $name . "</span>" . '<span style="font-weight: bold;">「' . $comment . "」</span> / " . $time;
-              echo "</p>";
+              echo '<div class="info">';
+              echo '<p class="main_info">ID : ' . $count . ', <span style="font-weight: bold;"> ' . $name . "</span>" . '<span style="font-weight: bold;">「' . $comment . '」</span> </p><p class="time_info">' . $time."</p>";
+              echo "</div>";
+              $count++;
             }
           
           }catch(PDOException $e){
