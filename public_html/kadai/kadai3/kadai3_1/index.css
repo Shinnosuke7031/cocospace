@@ -1,0 +1,92 @@
+/*------------- 共通 -------------*/
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  margin: 0 auto;
+  width: 800px;
+}
+
+h1 {
+  margin: 0;
+  text-align: center;
+}
+
+form {
+  min-height: 150px;
+}
+
+button {
+  cursor: pointer;
+}
+
+.header {
+  width: 100vw;
+  background-color: #000000;
+  color: #ffffff;
+  position: sticky;
+}
+
+.page_title {
+  margin: 30px auto;
+}
+
+.input_alert {
+  color: #b60101;
+}
+
+.emphasis {
+  font-weight: bold;
+}
+
+/*--------------------------------*/
+
+/*--------- signup.php -----------*/
+
+.form_signup {
+  min-height: 150px;
+  padding: 0 60px;
+}
+
+.form_signup div {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  position: relative;
+}
+.form_signup p {
+  width: 200px;
+  text-align: center;
+}
+
+.form_signup div input {
+  display: inline-block;
+  width: 200px;
+  height: 20px;
+}
+
+.signup_btn {
+  position: absolute;
+  right: 180px;
+  bottom: 14px;
+}
+
+.form_nav_kugiri {
+  width: 30px !important;
+  text-align: center;
+}
+
+/*--------------------------------*/
+
+/*--------- signup_complete.php -----------*/
+
+.signup_info {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+/*--------------------------------*/
