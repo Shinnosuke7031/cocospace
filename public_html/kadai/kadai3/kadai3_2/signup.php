@@ -8,7 +8,7 @@
   
   require("../funk.php");
   
-  $base_url = "http://co-19-301.99sv-coco.com/kadai/kadai3/kadai3_1";
+  $base_url = "http://co-19-301.99sv-coco.com/kadai/kadai3/kadai3_2";
   $top_url = $base_url . "/";
   $url_signup_complete = $base_url . "/signup_complete.php";
   $url_signup = $base_url . "/signup.php";

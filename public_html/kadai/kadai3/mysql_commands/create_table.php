@@ -21,10 +21,21 @@ try{
   //   PRIMARY KEY(id)
   // ) charset=utf8";
   // $res = $dbh->query($query);
+  // $query = "CREATE TABLE posts (
+  //           id INT AUTO_INCREMENT,
+  //           user_id TEXT,
+  //           name TEXT,
+  //           comment TEXT,
+  //           isFile BOOLEAN,
+  //           fname TEXT,
+  //           extension TEXT,
+  //           PRIMARY KEY(id)
+  //           ) charset=utf8";
+  // $res = $dbh->query($query);
 
   // クエリの作成(INSERT)
   // $query = 'INSERT INTO user(user_id, name, password, isTemporary, time_temporary) VALUES(:user_id, :name, :password, :isTemporary, :time_temporary)';
-  // $query = 'ALTER TABLE user ADD urltoken TEXT';
+  // $query = 'ALTER TABLE posts ADD time DATETIME';
   // $stmt = $dbh->prepare($query);
   // $user_id = "aaa";
   // $name = "test man";
@@ -36,12 +47,27 @@ try{
   // $stmt -> bindValue(':password', $password, PDO::PARAM_STR_CHAR);
   // $stmt -> bindValue(':isTemporary', $isTemporary, PDO::PARAM_INT);
   // $stmt -> bindValue(':time_temporary', $time_temporary, PDO::PARAM_STR_CHAR);
+  // $query = 'INSERT INTO posts(user_id, name, comment, isFile, fname, extension) VALUES(:user_id, :name, :comment, :isFile, :fname, :extension)';
+  // $stmt = $dbh->prepare($query);
+  // $user_id = "aaa";
+  // $name = "test man";
+  // $comment = "Hello";
+  // $isFile = false;
+  // $fname = "none";
+  // $extension = "none";
+  // $stmt -> bindValue(':user_id', $user_id, PDO::PARAM_STR_CHAR);
+  // $stmt -> bindValue(':name', $name, PDO::PARAM_STR_CHAR);
+  // $stmt -> bindValue(':comment', $comment, PDO::PARAM_STR_CHAR);
+  // $stmt -> bindValue(':isFile', $isFile, PDO::PARAM_INT);
+  // $stmt -> bindValue(':fname', $fname, PDO::PARAM_STR_CHAR);
+  // $stmt -> bindValue(':extension', $extension, PDO::PARAM_STR_CHAR);
 
-  // 実行
+  // // 実行
   // $stmt->execute();
 
   // クエリの実行(SELECT)
   $query = "SELECT * FROM user";
+  // $query = "SELECT * FROM posts";
   $stmt = $dbh->query($query);
 
   // 表示処理
@@ -54,7 +80,9 @@ try{
     $time_temporary = $row["time_temporary"];
     $urltoken = $row["urltoken"];
       echo  "id : " . $id . ", user_id : " . $user_id . ", name : " . $name . "<br/>";
+      // echo  "comment : " . $row["comment"] . ", isFile : " . $row["isFile"]  . ", fname : " . $row["fname"] . "<br/>";
       echo  "password : " . $password . ", isTemporary :" . $isTemporary . ", time_temporary : " . $time_temporary . "<br/>";
+      // echo "extension : " . $row["extension"] . ", time : " . $row["time"] . "<br/>";
       echo "urltoken : " . $urltoken. "<br/>";
   }
 
