@@ -35,7 +35,7 @@ try{
 
   // クエリの作成(INSERT)
   // $query = 'INSERT INTO user(user_id, name, password, isTemporary, time_temporary) VALUES(:user_id, :name, :password, :isTemporary, :time_temporary)';
-  // $query = 'ALTER TABLE posts ADD time DATETIME';
+  // $query = 'ALTER TABLE posts ADD raw_data LONGBLOB';
   // $stmt = $dbh->prepare($query);
   // $user_id = "aaa";
   // $name = "test man";
@@ -66,8 +66,10 @@ try{
   // $stmt->execute();
 
   // クエリの実行(SELECT)
-  $query = "SELECT * FROM user";
-  // $query = "SELECT * FROM posts";
+  // $query = "SELECT * FROM user";
+  // $query = 'DELETE FROM posts WHERE id = 11';
+  // $stmt = $dbh->query($query);
+  $query = "SELECT * FROM posts";
   $stmt = $dbh->query($query);
 
   // 表示処理
@@ -75,15 +77,15 @@ try{
     $id = $row["id"];
     $user_id = $row["user_id"];
     $name = $row["name"];
-    $password = $row["password"];
-    $isTemporary = $row["isTemporary"];
-    $time_temporary = $row["time_temporary"];
-    $urltoken = $row["urltoken"];
+    // $password = $row["password"];
+    // $isTemporary = $row["isTemporary"];
+    // $time_temporary = $row["time_temporary"];
+    // $urltoken = $row["urltoken"];
       echo  "id : " . $id . ", user_id : " . $user_id . ", name : " . $name . "<br/>";
-      // echo  "comment : " . $row["comment"] . ", isFile : " . $row["isFile"]  . ", fname : " . $row["fname"] . "<br/>";
-      echo  "password : " . $password . ", isTemporary :" . $isTemporary . ", time_temporary : " . $time_temporary . "<br/>";
-      // echo "extension : " . $row["extension"] . ", time : " . $row["time"] . "<br/>";
-      echo "urltoken : " . $urltoken. "<br/>";
+      echo  "comment : " . $row["comment"] . ", isFile : " . $row["isFile"]  . ", fname : " . $row["fname"] . "<br/>";
+      // echo  "password : " . $password . ", isTemporary :" . $isTemporary . ", time_temporary : " . $time_temporary . "<br/>";
+      echo "extension : " . $row["extension"] . ", time : " . $row["time"] . ", raw_data : " . $row["raw_data"] . "<br/>";
+      // echo "urltoken : " . $urltoken. "<br/>";
   }
 
 }catch(PDOException $e){
