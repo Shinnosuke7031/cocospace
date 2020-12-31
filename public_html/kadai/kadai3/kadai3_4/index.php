@@ -33,13 +33,16 @@
     $stmt = $dbh->query($query);
 
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($input_password != "" && $row["password"] == $input_password) {
-      $_SESSION["user_id"] = $input_id;
-      header("location: $board_url");
-      exit();
+    if ($row["isTemporary"]) {//仮登録の場合
+      $alert_pass1 = "このユーザーは仮登録のためログインできません";
     } else {
-      $alert_pass1 = "IDまたはパスワードが違います";
+      if ($input_password != "" && $row["password"] == $input_password) {
+        $_SESSION["user_id"] = $input_id;
+        header("location: $board_url");
+        exit();
+      } else {
+        $alert_pass1 = "IDまたはパスワードが違います";
+      }
     }
 
   }
