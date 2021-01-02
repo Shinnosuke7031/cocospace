@@ -231,10 +231,13 @@ button {
 
 .info {
   display: flex;
+  height: 70px;
 }
 
 .main_info {
   width: 600px;
+  display: flex;
+  align-items: center;
 }
 
 .time_info {
@@ -243,6 +246,7 @@ button {
 
 .ex {
   border-bottom: 1px dotted #000000;
+  height: 30px;
 }
 
 .btn-submit {
@@ -250,6 +254,20 @@ button {
   bottom: -5px;
   left: 50%;
   cursor: pointer;
+}
+
+.main_image {
+  display: flex;
+  align-items: center;
+  height: 70px;
+}
+
+.images {
+  height: 70px;
+}
+
+.form_sort_btn {
+  min-height: 50px;
 }
 
 /*--------------------------------*/

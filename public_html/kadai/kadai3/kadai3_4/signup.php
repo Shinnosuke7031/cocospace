@@ -27,6 +27,7 @@
     $alert_pass1 = $_POST["input_password"] != "" ? "" : "入力必須です";
     $alert_pass2 = $_POST["check_password"] != "" ? "" : "入力必須です";
     $input_name = $_POST["input_name"];
+    $input_to = $_POST["input_to"];
     $input_password = $_POST["input_password"];
     $check_password = $_POST["check_password"];
     if ($input_password != $check_password) {

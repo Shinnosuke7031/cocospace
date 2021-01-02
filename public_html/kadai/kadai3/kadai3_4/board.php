@@ -280,7 +280,6 @@
     <link rel="stylesheet" type="text/css" href="index.css">
   </head>
 <body>
-
   <div class="header">
     <p> ようこそ： <?php echo $user_name ?> さん </p>
     <h1><a href=<?php echo $top_url ?>>簡易掲示板</a></h1>
@@ -292,6 +291,11 @@
   <div class="container">
 
     <h1 class="page_title">掲示板</h1>
+
+    <form class="form_sort_btn" action="board.php" method="post">
+      <input type="submit" name="up_sort" value="昇順ソート">
+      <input type="submit" name="down_sort" value="降順ソート">
+    </form>
 
     <form action="board.php" method="post">
       <input type="hidden" value=<?php echo $isEditMode; ?> name="JugeEditMode_inInputForm">
@@ -314,7 +318,19 @@
             $dbh = new PDO($dsn, $user, $password_db);
             $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             // クエリの実行(SELECT)
+            /////////////////// 昇順降順切替 ////////////////
             $query = 'SELECT * FROM posts';
+            if (isset($_POST["up_sort"])) {
+              if ($_POST["up_sort"] == "昇順ソート") {
+                $query = 'SELECT * FROM posts';
+              }
+            }
+            if (isset($_POST["down_sort"])) {
+              if ($_POST["down_sort"] == "降順ソート") {
+                $query = 'SELECT * FROM posts ORDER BY id DESC';
+              }
+            }
+            
             $stmt = $dbh->query($query);
             // 表示処理
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -324,16 +340,17 @@
               $time = $row["time"];
 
               if ($row["isFile"]) {
-                echo '<div class="info">';
-                echo '<p class="main_info">ID : ' . $count . ', <span style="font-weight: bold;"> ' . $name . "</span>" . '<span style="font-weight: bold;">「' . 'ここは動画か画像' . '」</span> </p><p class="time_info">' . $time."</p>";
+                echo '<div class="info main_image">';
+                echo '<p class="main_info">ID : ' . $count . ', <span style="font-weight: bold;"> ' . $name . "</span>";
                 $target = $row["fname"];
                 if($row["extension"] == "mp4") {
-                  echo ("<video src=\"$import_url?target=$target\" width=\"426\" height=\"240\" controls></video>");
+                  echo ("<video src=\"$import_url?target=$target\" height=\"70\" controls></video>");
                 }
                 elseif($row["extension"] == "jpeg" || $row["extension"] == "png" || $row["extension"] == "gif") {
-                  echo ("<img src='import_media.php?target=$target'>");
+                  echo ("<img class=\"images\" src='import_media.php?target=$target'>");
                 }
-                echo ("<br/><br/>");
+                echo '</p><p class="time_info">' . $time."</p>";
+                echo ("<p/>");
                 echo "</div>";
               } else {
                 echo '<div class="info">';
