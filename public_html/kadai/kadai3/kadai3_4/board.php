@@ -293,14 +293,25 @@
     <h1 class="page_title">掲示板</h1>
 
     <form class="form_sort_btn" action="board.php" method="post">
-      <input type="submit" name="up_sort" value="昇順ソート">
-      <input type="submit" name="down_sort" value="降順ソート">
+      <input class="btn_input_anime btn_input" type="submit" name="up_sort" value="昇順ソート">
+      <input class="btn_input_anime btn_input" type="submit" name="down_sort" value="降順ソート">
+    </form>
+
+    <form class="form_file_upload" action="board.php" enctype="multipart/form-data" method="post">
+      <div class="file_upload">
+        <div class="form-element2">
+          <label>画像/動画アップロード</label>
+          <input class="btn_input2" type="file" name="upfile">
+        </div>
+        ※対応形式 : 画像(jpeg, png, gif), 動画(mp4)<br>
+        <input class="btn_input_anime btn_input" type="submit" value="アップロード">
+      </div>
     </form>
 
     <form action="board.php" method="post">
       <input type="hidden" value=<?php echo $isEditMode; ?> name="JugeEditMode_inInputForm">
       <input type="hidden" value=<?php echo $edit_id; ?> name="edit_id" >
-      <div class="form-element set_btn">
+      <div class="form-element set_btn submit_form">
         <p>コメント：</p>
         <input type="text" name="comment" value=<?php
           if ($isEditMode) echo $comment_form;
@@ -368,14 +379,6 @@
           $dbh = null;
         ?>
       </div>
-    </form>
-
-    <form action="board.php" enctype="multipart/form-data" method="post">
-      <label>画像/動画アップロード</label>
-      <input type="file" name="upfile">
-      <br>
-      ※画像はjpeg方式，png方式，gif方式に対応しています．動画はmp4方式のみ対応しています．<br>
-      <input type="submit" value="アップロード">
     </form>
 
   <form class="form_mini" action="board.php" method="post" onsubmit="return check()">

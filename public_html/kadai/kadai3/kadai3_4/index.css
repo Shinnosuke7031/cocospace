@@ -246,13 +246,13 @@ button {
 
 .ex {
   border-bottom: 1px dotted #000000;
-  height: 30px;
+  height: 50px;
 }
 
 .btn-submit {
   position: absolute;
-  bottom: -5px;
-  left: 50%;
+  bottom: 0px;
+  left: 45%;
   cursor: pointer;
 }
 
@@ -267,7 +267,80 @@ button {
 }
 
 .form_sort_btn {
-  min-height: 50px;
+  min-height: 0px;
+  margin: 0;
+  padding: 0;
 }
+
+.btn_input {
+  display: inline-block;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  text-decoration: none;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.btn_input2 {
+  display: inline-block;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  text-decoration: none;
+  border: 0;
+  border-bottom: #000000 1px solid;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.btn_input_anime {
+  color: #000000;
+  background-color: #a5a5a5;
+  border-bottom: 5px solid #6e6e6e;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.btn_input_anime:hover {
+  margin-top: 3px;
+  color: #000000;
+  background: #a5a5a5;
+  border-bottom: 2px solid #6e6e6e;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.submit_form {
+  width: 400px;
+  height: 130px;
+  margin: 0;
+}
+
+.file_upload {
+  position: absolute;
+  width: 400px;
+  height: 0px;
+  top: 212px;
+  left: 50%;
+}
+
+.form_file_upload {
+  height: 0px;
+  min-height: 0px;
+}
+
 
 /*--------------------------------*/
