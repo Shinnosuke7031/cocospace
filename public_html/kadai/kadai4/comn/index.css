@@ -1,0 +1,346 @@
+/*------------- 共通 -------------*/
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.container {
+  margin: 0 auto;
+  width: 800px;
+}
+
+h1 {
+  margin: 0;
+  text-align: center;
+}
+
+h1 a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+form {
+  min-height: 150px;
+}
+
+button {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  text-decoration: none;
+  border: 0;
+  border-radius: 5px;
+}
+
+button {
+  cursor: pointer;
+}
+
+.btn {
+  color: #000000;
+  background-color: #a5a5a5;
+  border-bottom: 5px solid #6e6e6e;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.btn:hover {
+  margin-top: 3px;
+  color: #000000;
+  background: #a5a5a5;
+  border-bottom: 2px solid #6e6e6e;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.header {
+  z-index: 10;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  min-width: 800px;
+  width: 100vw;
+  height: 50px;
+  background-color: #000000;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header2 {
+  z-index: 10;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  min-width: 800px;
+  width: 100vw;
+  height: 50px;
+  background-color: #000000;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header h1 {
+  width: 100%;
+}
+
+.header p {
+  width: 400px;
+  text-align: left;
+}
+
+.logout_form {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  min-height: 50px;
+  height: 50px;
+  width: 400px;
+  margin: 0;
+  padding: 0 5px 0 0;
+}
+
+.form_mini {
+  min-height: 50px;
+}
+
+.form-element {
+  width: 300px;
+  height: 50px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+
+.form-element p {
+  width: 100px;
+  text-align: right;
+}
+
+.form-element input {
+  display: inline-block;
+  width: 200px;
+  height: 20px;
+}
+
+.page_title {
+  margin: 30px auto;
+}
+
+.input_alert {
+  color: #b60101;
+  font-size: 13px;
+}
+
+.emphasis {
+  font-weight: bold;
+}
+
+.set_btn {
+  position: relative;
+  padding-bottom: 20px;
+}
+
+/*--------------------------------*/
+
+/*--------- index.php -----------*/
+
+.login_btn {
+  position: absolute;
+  right: 310px;
+  bottom: -20px;
+}
+
+/*--------------------------------*/
+
+/*--------- signup.php -----------*/
+
+.form_signup {
+  min-height: 150px;
+  padding: 0 60px;
+}
+
+.form_signup div {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  position: relative;
+}
+.form_signup p {
+  width: 200px;
+  text-align: center;
+}
+
+.form_signup div input {
+  display: inline-block;
+  width: 200px;
+  height: 20px;
+}
+
+.signup_btn {
+  position: absolute;
+  right: 320px;
+  bottom: -20px;
+}
+
+.form_nav_kugiri {
+  width: 30px !important;
+  text-align: center;
+}
+
+/*--------------------------------*/
+
+/*--------- signup_complete.php -----------*/
+
+.signup_info {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+/*--------------------------------*/
+
+/*--------- board.php -----------*/
+
+.comment_lineup {
+  text-align: left;
+  margin: 10px auto 0;
+  padding: 0 10px;
+  width: 770px;
+  border: 1px solid #000000;
+  border-radius: 10px;
+}
+
+.info {
+  display: flex;
+  height: 70px;
+}
+
+.main_info {
+  width: 600px;
+  display: flex;
+  align-items: center;
+}
+
+.time_info {
+  width: 180px;
+}
+
+.ex {
+  border-bottom: 1px dotted #000000;
+  height: 50px;
+}
+
+.btn-submit {
+  position: absolute;
+  bottom: 0px;
+  left: 45%;
+  cursor: pointer;
+}
+
+.main_image {
+  display: flex;
+  align-items: center;
+  height: 70px;
+}
+
+.images {
+  height: 70px;
+}
+
+.form_sort_btn {
+  min-height: 0px;
+  margin: 0;
+  padding: 0;
+}
+
+.btn_input {
+  display: inline-block;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  text-decoration: none;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.btn_input2 {
+  display: inline-block;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+  text-decoration: none;
+  border: 0;
+  border-bottom: #000000 1px solid;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.btn_input_anime {
+  color: #000000;
+  background-color: #a5a5a5;
+  border-bottom: 5px solid #6e6e6e;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.btn_input_anime:hover {
+  margin-top: 3px;
+  color: #000000;
+  background: #a5a5a5;
+  border-bottom: 2px solid #6e6e6e;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.submit_form {
+  width: 400px;
+  height: 130px;
+  margin: 0;
+}
+
+.file_upload {
+  position: absolute;
+  width: 400px;
+  height: 0px;
+  top: 212px;
+  left: 50%;
+}
+
+.form_file_upload {
+  height: 0px;
+  min-height: 0px;
+}
+
+
+/*--------------------------------*/
