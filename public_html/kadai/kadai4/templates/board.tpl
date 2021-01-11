@@ -56,6 +56,9 @@
         <button class="btn-submit btn" type="submit">投稿</button>
       </div>
       <div class="comment_lineup">
+        <div class="info ex">
+          <p class="main_info">ID : id， <span style="font-weight: bold;"> 名前 </span><span style="font-weight: bold;">「コメント」</span> </p><p class="time_info">時間</p>
+        </div>
         {foreach $counts as $key => $count}
 
           {if $types[$key] == "text"}
