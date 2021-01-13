@@ -1,27 +1,13 @@
 <?php
 
-require("../define.php");
-require("../funk.php");
+require("../../define.php");
+require("../../funk.php");
 
-// cache
-require_once("Cache/Lite.php");
-$cacheoptions = array(
-  "cacheDir" => "cache/",
-  "lifeTime" => 1800,
-  "automaticCleaningFactor" => "100",
-);
-$cache = new Cache_Lite($cacheoptions);
-$cacheid_counts="cache_counts";
-$cacheid_ids="cache_ids";
-$cacheid_names="cache_names";
-$cacheid_times="cache_times";
-$cacheid_comments="cache_comments";
-$cacheid_types="cache_types";
-$cacheid_fnames="cache_fnames";
+// cache();
 
 // smartyの設定ファイル読み込み
-require_once(realpath(__DIR__) . "/smarty/Autoloader.php");
-require_once(realpath(__DIR__) . '/smarty/SmartyBC.class.php');
+require_once(realpath(__DIR__) . "../smarty/Autoloader.php");
+require_once(realpath(__DIR__) . '../smarty/SmartyBC.class.php');
 Smarty_Autoloader::register();
 
 $obj = new StdClass();
@@ -258,64 +244,64 @@ if (isset($_POST["edit_number"]) && isset($_POST["password_edit"])) {
 }
 
 /////////////////// 動画・画像アップロード ////////////////
-if (isset($_FILES['upfile']['error']) && is_int($_FILES['upfile']['error']) && $_FILES["upfile"]["name"] !== ""){
-  //エラーチェック
-  switch ($_FILES['upfile']['error']) {
-    case UPLOAD_ERR_OK: // OK
-        break;
-    case UPLOAD_ERR_NO_FILE:   // 未選択
-        throw new RuntimeException('ファイルが選択されていません', 400);
-    case UPLOAD_ERR_INI_SIZE:  // php.ini定義の最大サイズ超過
-        throw new RuntimeException('ファイルサイズが大きすぎます', 400);
-    default:
-        throw new RuntimeException('その他のエラーが発生しました', 500);
-  }
-  //画像・動画をバイナリデータにする
-  $raw_data = file_get_contents($_FILES['upfile']['tmp_name']);
+// if (isset($_FILES['upfile']['error']) && is_int($_FILES['upfile']['error']) && $_FILES["upfile"]["name"] !== ""){
+//   //エラーチェック
+//   switch ($_FILES['upfile']['error']) {
+//     case UPLOAD_ERR_OK: // OK
+//         break;
+//     case UPLOAD_ERR_NO_FILE:   // 未選択
+//         throw new RuntimeException('ファイルが選択されていません', 400);
+//     case UPLOAD_ERR_INI_SIZE:  // php.ini定義の最大サイズ超過
+//         throw new RuntimeException('ファイルサイズが大きすぎます', 400);
+//     default:
+//         throw new RuntimeException('その他のエラーが発生しました', 500);
+//   }
+//   //画像・動画をバイナリデータにする
+//   $raw_data = file_get_contents($_FILES['upfile']['tmp_name']);
 
-  //拡張子を見る
-  $tmp = pathinfo($_FILES["upfile"]["name"]);
-  $extension = $tmp["extension"];
-  if($extension === "jpg" || $extension === "jpeg" || $extension === "JPG" || $extension === "JPEG"){
-    $extension = "jpeg";
-  }
-  elseif($extension === "png" || $extension === "PNG"){
-    $extension = "png";
-  }
-  elseif($extension === "gif" || $extension === "GIF"){
-    $extension = "gif";
-  }
-  elseif($extension === "mp4" || $extension === "MP4"){
-    $extension = "mp4";
-  }
-  else{
-    echo "非対応ファイルです．<br/>";
-    echo ("<a href=\"". $urls->top_url ."\">戻る</a><br/>");
-    exit(1);
-  }
-  //DBに格納するファイルネーム設定
-  //サーバー側の一時的なファイルネームと取得時刻を結合した文字列にsha256をかける
-  $date = getdate();//年月日時間をオブジェクトとして取得
-  $time = now();
-  $fname = $_FILES["upfile"]["tmp_name"].$date["year"].$date["mon"].$date["mday"].$date["hours"].$date["minutes"].$date["seconds"];
-  $fname = hash("sha256", $fname);
-  $isFile = 1;
+//   //拡張子を見る
+//   $tmp = pathinfo($_FILES["upfile"]["name"]);
+//   $extension = $tmp["extension"];
+//   if($extension === "jpg" || $extension === "jpeg" || $extension === "JPG" || $extension === "JPEG"){
+//     $extension = "jpeg";
+//   }
+//   elseif($extension === "png" || $extension === "PNG"){
+//     $extension = "png";
+//   }
+//   elseif($extension === "gif" || $extension === "GIF"){
+//     $extension = "gif";
+//   }
+//   elseif($extension === "mp4" || $extension === "MP4"){
+//     $extension = "mp4";
+//   }
+//   else{
+//     echo "非対応ファイルです．<br/>";
+//     echo ("<a href=\"". $urls->top_url ."\">戻る</a><br/>");
+//     exit(1);
+//   }
+//   //DBに格納するファイルネーム設定
+//   //サーバー側の一時的なファイルネームと取得時刻を結合した文字列にsha256をかける
+//   $date = getdate();//年月日時間をオブジェクトとして取得
+//   $time = now();
+//   $fname = $_FILES["upfile"]["tmp_name"].$date["year"].$date["mon"].$date["mday"].$date["hours"].$date["minutes"].$date["seconds"];
+//   $fname = hash("sha256", $fname);
+//   $isFile = 1;
 
-  //画像・動画をDBに格納
-  $query = 'INSERT INTO posts(user_id, name, comment, isFile, fname, extension, time, raw_data) 
-                            VALUES(:user_id, :name, :comment, :isFile, :fname, :extension, :time, :raw_data)';
-  $stmt = $dbh->prepare($query);
-  $stmt -> bindValue(':user_id', $obj->user_id, PDO::PARAM_STR);
-  $stmt -> bindValue(':name', $obj->user_name, PDO::PARAM_STR);
-  $stmt -> bindValue(':comment', "", PDO::PARAM_STR);
-  $stmt -> bindValue(':isFile', $isFile, PDO::PARAM_INT);
-  $stmt -> bindValue(':fname', $fname, PDO::PARAM_STR);
-  $stmt -> bindValue(':extension', $extension, PDO::PARAM_STR);
-  $stmt -> bindValue(':time', $time, PDO::PARAM_STR);
-  $stmt -> bindValue(":raw_data",$raw_data, PDO::PARAM_STR);      
-  // 実行
-  $stmt->execute();
-}
+//   //画像・動画をDBに格納
+//   $query = 'INSERT INTO posts(user_id, name, comment, isFile, fname, extension, time, raw_data) 
+//                             VALUES(:user_id, :name, :comment, :isFile, :fname, :extension, :time, :raw_data)';
+//   $stmt = $dbh->prepare($query);
+//   $stmt -> bindValue(':user_id', $obj->user_id, PDO::PARAM_STR);
+//   $stmt -> bindValue(':name', $obj->user_name, PDO::PARAM_STR);
+//   $stmt -> bindValue(':comment', "", PDO::PARAM_STR);
+//   $stmt -> bindValue(':isFile', $isFile, PDO::PARAM_INT);
+//   $stmt -> bindValue(':fname', $fname, PDO::PARAM_STR);
+//   $stmt -> bindValue(':extension', $extension, PDO::PARAM_STR);
+//   $stmt -> bindValue(':time', $time, PDO::PARAM_STR);
+//   $stmt -> bindValue(":raw_data",$raw_data, PDO::PARAM_STR);      
+//   // 実行
+//   $stmt->execute();
+// }
 
 /* 表示部分 */
 $counts = array();
@@ -326,87 +312,49 @@ $times = array();
 $types = array();
 $fnames = array();
 
-if ($jsonCounts = $cache->get($cacheid_counts)) {//キャッシュあり
-
-  $jsonIDs = $cache->get($cacheid_ids);
-  $jsonNames = $cache->get($cacheid_names);
-  $jsonTimes = $cache->get($cacheid_times);
-  $jsonComments = $cache->get($cacheid_comments);
-  $jsonTypes = $cache->get($cacheid_types);
-  $jsonFnames = $cache->get($cacheid_fnames);
-
-  $counts = json_decode($jsonCounts, true);
-  $ids = json_decode($jsonNames, true);
-  $names = json_decode($jsonNames, true);
-  $times = json_decode($jsonTimes, true);
-  $comments = json_decode($jsonComments, true);
-  $types = json_decode($jsonTypes, true);
-  $fnames = json_decode($jsonFnames, true);
-
-  // print_r($jsonNames);
-  // print_r($names);
-  // echo "キャッシュあり";
-
-} else {//キャッシュなし
-
-  $count = 1;
-  try{
-    $dbh = new PDO($DBinfo["dsn"], $DBinfo["user"], $DBinfo["password"]);
-    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $import_url = $urls->import_url;
-    // クエリの実行(SELECT)
-    /////////////////// 昇順降順切替 ////////////////
-    $query = 'SELECT * FROM posts';
-    if (isset($_POST["up_sort"])) {
-      if ($_POST["up_sort"] == "昇順ソート") {
-        $query = 'SELECT * FROM posts';
-      }
+$count = 1;
+try{
+  $dbh = new PDO($DBinfo["dsn"], $DBinfo["user"], $DBinfo["password"]);
+  $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  $import_url = $urls->import_url;
+  // クエリの実行(SELECT)
+  /////////////////// 昇順降順切替 ////////////////
+  $query = 'SELECT * FROM posts';
+  if (isset($_POST["up_sort"])) {
+    if ($_POST["up_sort"] == "昇順ソート") {
+      $query = 'SELECT * FROM posts';
     }
-    if (isset($_POST["down_sort"])) {
-      if ($_POST["down_sort"] == "降順ソート") {
-        $query = 'SELECT * FROM posts ORDER BY id DESC';
-      }
-    }
-    
-    $stmt = $dbh->query($query);
-    // 表示処理
-    while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-      array_push($counts, $count);
-      array_push($ids, $row["id"]);
-      array_push($names, $row["name"]);
-      array_push($times, $row["time"]);
-      if ($row["isFile"]) {
-        array_push($comments, "none");
-        array_push($types, $row["extension"]);
-        array_push($fnames, $row["fname"]);
-        // array_push($raw_data, "raw_data");
-      } else {
-        array_push($comments, $row["comment"]);
-        array_push($types, "text");
-        array_push($fnames, "none");
-      }
-      $count++;
-    }
-  }catch(PDOException $e){
-    print("データベースの接続に失敗しました");
-    die();
   }
-  $jsonCounts = json_encode($counts);
-  $cache->save($jsonCounts, $cacheid_counts);
-  $jsonIDs = json_encode($ids);
-  $cache->save($jsonIDs, $cacheid_ids);
-  $jsonNames = json_encode($names);
-  $cache->save($jsonNames, $cacheid_names);
-  $jsonTimes = json_encode($times);
-  $cache->save($jsonTimes, $cacheid_times);
-  $jsonComments = json_encode($comments);
-  $cache->save($jsonComments, $cacheid_comments);
-  $jsonTypes = json_encode($types);
-  $cache->save($jsonTypes, $cacheid_types);
-  $jsonFnames = json_encode($fnames);
-  $cache->save($jsonFnames, $cacheid_fnames);
+  if (isset($_POST["down_sort"])) {
+    if ($_POST["down_sort"] == "降順ソート") {
+      $query = 'SELECT * FROM posts ORDER BY id DESC';
+    }
+  }
+      
+  $stmt = $dbh->query($query);
+  // 表示処理
+  while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+    array_push($counts, $count);
+    array_push($ids, $row["id"]);
+    array_push($names, $row["name"]);
+    array_push($times, $row["time"]);
+    if ($row["isFile"]) {
+      array_push($comments, "none");
+      array_push($types, $row["extension"]);
+      array_push($fnames, $row["fname"]);
+      // array_push($raw_data, "raw_data");
+    } else {
+      array_push($comments, $row["comment"]);
+      array_push($types, "text");
+      array_push($fnames, "none");
+    }
+    $count++;
+  }
+}catch(PDOException $e){
+  print("データベースの接続に失敗しました");
+  die();
 }
-  
+
 // foreach ($counts as $key => $count) {
 //   echo "[" . $key . "] => count : " . $count . "<br/>";
 //   echo "[" . $key . "] => ids : " . $ids[$key] . "<br/>";
@@ -464,7 +412,7 @@ $smarty->display('board.tpl');
 //   require_once("Cache/Lite.php");
 //   $cacheoptions = array(
 //     "cacheDir" => "cache/",
-//     "lifeTime" => 1800,
+//     "lifeTime" => 3600,
 //     "automaticCleaningFactor" => "100",
 //   );
 //   $cache = new Cache_Lite($cacheoptions);
@@ -472,16 +420,14 @@ $smarty->display('board.tpl');
 //   $cache_id="cache_id01";
 //   if ($cacheData = $cache->get($cache_id)) {
 //     //Cacheしたファイルがあるとき
-//     // $buff=$cacheData;
+//     $cacheData = file_get_contents("http://co-19-301.99sv-coco.com/public_html/kadai/kadai4/cache_files/display.php");
 //     echo "キャッシュ有効";
 //   }else{
 //     //Cacheしたファイルがないとき
-//     // $savedata=file_get_contents("cache_files/display.php");
-//     $savedata=file_get_contents("cache_files/display.php");
-//     // $buff=$savedata;
+//     //キャッシュファイルにデータを保存する
+//     $savedata="保存するデータ(配列なども可能)";
 //     $cache->save($savedata, $cache_id);
 //     echo "キャッシュなし";
 //   }
-//   /*************/
-//   // print_r($buff);
+  /*************/
 // }

@@ -2,3 +2,5 @@
 /.vscode
 
 /public_html/kadai/kadai4/smarty
+/public_html/kadai/kadai4/cache
+/public_html/kadai/kadai4/Cache
