@@ -14,19 +14,14 @@ $db = new StdClass();//DB用オブジェクト
 // $display = new StdClass();//表示用オブジェクト
 $smarty = new Smarty();
 
-$base_url = "http://co-19-301.99sv-coco.com/kadai/kadai4";
-$top_url = $base_url . "/";
-$url_signup = $base_url . "/signup.php";
-$board_url = $base_url . "/board.php";
-$logout_url = $base_url . "/logout.php";
-$import_url = $base_url . "/import_media.php";
+$url_data = URLs();
 
-$urls->base_url = $base_url;
-$urls->top_url = $top_url;
-$urls->url_signup = $url_signup;
-$urls->board_url = $board_url;
-$urls->logout_url = $logout_url;
-$urls->import_url = $import_url;
+$urls->base_url = $url_data["base"];
+$urls->top_url = $url_data["top"];
+$urls->url_signup = $url_data["signup"];
+$urls->board_url = $url_data["board"];
+$urls->logout_url = $url_data["logout"];
+$urls->import_url = $url_data["import"];
 
 $DBinfo = DBinfo();
 $db->dbh = $DBinfo["dsn"];
@@ -37,10 +32,10 @@ session_start();
   
 $obj->user_id = '';
 $obj->user_name = '';
-$obj->comment_form = "";
+// $obj->comment_form = "";
 
 if (!isset($_SESSION['user_id'])) {
-  header("location: $top_url");
+  header("location: $urls->top_url");
 } else {
   $obj->user_id = $_SESSION["user_id"];
 }
@@ -128,6 +123,16 @@ if (isset($_POST["delete_number"]) && isset($_POST["password_delete"])) {
     // 入力された番号に対応したidを見つける
     // $query = 'SELECT * FROM kadai2_MySQL_TEST';
     $query = 'SELECT * FROM posts';
+    if (isset($_POST["up_sort2"])) {
+      if ($_POST["up_sort2"] == "昇順ソート") {
+        $query = 'SELECT * FROM posts';
+      }
+    }
+    if (isset($_POST["down_sort2"])) {
+      if ($_POST["down_sort2"] == "降順ソート") {
+        $query = 'SELECT * FROM posts ORDER BY id DESC';
+      }
+    }
     $stmt = $dbh->query($query);
     $count = 0;
     $delete_id = 0;
@@ -184,10 +189,19 @@ if (isset($_POST["edit_number"]) && isset($_POST["password_edit"])) {
   try {
     // 入力された番号に対応したidを見つける
     $query = 'SELECT * FROM posts';
+    if (isset($_POST["up_sort2"])) {
+      if ($_POST["up_sort2"] == "昇順ソート") {
+        $query = 'SELECT * FROM posts';
+      }
+    }
+    if (isset($_POST["down_sort2"])) {
+      if ($_POST["down_sort2"] == "降順ソート") {
+        $query = 'SELECT * FROM posts ORDER BY id DESC';
+      }
+    }
     $stmt = $dbh->query($query);
     $count = 0;
     $edit_id = 0;
-    $delete_user_id = "";
     $isTempFile = true;
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
       $count++;
@@ -210,7 +224,7 @@ if (isset($_POST["edit_number"]) && isset($_POST["password_edit"])) {
       $stmt = $dbh->query($query);
 
       while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $comment_form = $row["comment"];
+        $obj->comment_form = $row["comment"];
       }
        
       if ($password_edit == $password_edit_check) $isEditMode = $edit_id;
@@ -260,7 +274,7 @@ if (isset($_FILES['upfile']['error']) && is_int($_FILES['upfile']['error']) && $
   }
   else{
     echo "非対応ファイルです．<br/>";
-    echo ("<a href=\"". $top_url ."\">戻る</a><br/>");
+    echo ("<a href=\"". $urls->top_url ."\">戻る</a><br/>");
     exit(1);
   }
   //DBに格納するファイルネーム設定
@@ -300,7 +314,7 @@ $count = 1;
 try{
   $dbh = new PDO($DBinfo["dsn"], $DBinfo["user"], $DBinfo["password"]);
   $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-  $import_url = $import_url;
+  $import_url = $urls->import_url;
   // クエリの実行(SELECT)
   /////////////////// 昇順降順切替 ////////////////
   $query = 'SELECT * FROM posts';
@@ -348,11 +362,33 @@ try{
 //   echo "[" . $key . "] => types : " . $types[$key] . "<br/>";
 //   echo "[" . $key . "] => raw_data : " . $raw_data[$key] . "<br/>";
 // }
+$obj->sort = "up";
+if (isset($_POST["up_sort"])) {
+  if ($_POST["up_sort"] == "昇順ソート") {
+    $obj->sort = "up";
+  }
+}
+if (isset($_POST["down_sort"])) {
+  if ($_POST["down_sort"] == "降順ソート") {
+    $obj->sort = "down";
+  }
+}
 
 $dbh = null;
 
 $obj->isEditMode = $isEditMode;
 $obj->edit_id = $edit_id;
+
+/* ユーザーエージェント */
+$ua = $_SERVER["HTTP_USER_AGENT"];
+if((strpos($ua,"Android") !== false) && (strpos($ua,"Mobile") !== false) || (strpos($ua,"iPhone") !== false ) || (strpos($ua,"Windows Phone") !== false)){
+	$obj->user_agent="smartphone";
+}elseif((strpos($ua,"DoCoMo") !== false) || (strpos($ua,"KDDI") !== false) || (strpos($ua,"SoftBank") !== false)|| (strpos($ua,"vodafone") !== false) || (strpos($ua,"J PHONE") !== false)){
+	$obj->user_agent="mobile";
+}else{
+	$obj->user_agent="PC";
+}
+/*-------------------*/
 
 $smarty = new SmartyBC();
 $smarty->php_handling = Smarty::PHP_ALLOW;

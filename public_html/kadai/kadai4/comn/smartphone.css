@@ -1,41 +1,4 @@
 /*------------- 共通 -------------*/
-*,
-*:before,
-*:after {
-  -webkit-box-sizing: inherit;
-  box-sizing: inherit;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-.container {
-  margin: 0 auto;
-  width: 800px;
-}
-
-h1 {
-  margin: 0;
-  text-align: center;
-}
-
-h1 a {
-  text-decoration: none;
-  color: #ffffff;
-}
-
-video {
-  z-index: 100;
-}
-
-form {
-  min-height: 150px;
-}
-
 button {
   -webkit-appearance: none;
      -moz-appearance: none;
@@ -54,31 +17,24 @@ button {
   cursor: pointer;
 }
 
+.container {
+  margin: 0 auto;
+  width: 300px;
+  font-size: small;
+}
+
 .btn {
   color: #000000;
   background-color: #a5a5a5;
-  border-bottom: 5px solid #6e6e6e;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-}
-
-.btn:hover {
-  margin-top: 3px;
-  color: #000000;
-  background: #a5a5a5;
-  border-bottom: 2px solid #6e6e6e;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
+  border: 0;
 }
 
 .header {
   z-index: 10;
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  min-width: 800px;
-  width: 100vw;
-  height: 50px;
+  margin: 0 auto;
+  min-width: 300px;
+  width: 300px;
+  height: 30px;
   background-color: #000000;
   color: #ffffff;
   display: flex;
@@ -88,26 +44,28 @@ button {
 
 .header2 {
   z-index: 10;
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  min-width: 800px;
-  width: 100vw;
-  height: 50px;
+  margin: 0 auto;
+  min-width: 300px;
+  width: 300px;
+  height: 30px;
   background-color: #000000;
   color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: small;
 }
 
 .header h1 {
-  width: 100%;
+  width: 250px;
+  font-size: 20px;
+  text-align: center;
 }
 
 .header p {
-  width: 400px;
+  width: 90px;
   text-align: left;
+  font-size: 5px;
 }
 
 .logout_form {
@@ -126,17 +84,19 @@ button {
 }
 
 .form-element {
-  width: 300px;
+  width: 90%;
   height: 50px;
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: right;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .form-element p {
-  width: 100px;
-  text-align: right;
+  width: 100%;
+  text-align: center;
+  margin: 0;
 }
 
 .form-element input {
@@ -160,7 +120,8 @@ button {
 
 .set_btn {
   position: relative;
-  padding-bottom: 20px;
+  padding-bottom: 30px;
+  /* border: #000000 1px solid; */
 }
 
 /*--------------------------------*/
@@ -169,8 +130,14 @@ button {
 
 .login_btn {
   position: absolute;
-  right: 310px;
-  bottom: -20px;
+  right: 31%;
+  bottom: 0;
+}
+
+.to_signup {
+  width: 100%;
+  text-align: center;
+  margin: 20px auto;
 }
 
 /*--------------------------------*/
@@ -187,6 +154,7 @@ button {
   justify-content: left;
   align-items: center;
   position: relative;
+  flex-direction: column;
 }
 .form_signup p {
   width: 200px;
@@ -201,13 +169,8 @@ button {
 
 .signup_btn {
   position: absolute;
-  right: 320px;
-  bottom: -20px;
-}
-
-.form_nav_kugiri {
-  width: 30px !important;
-  text-align: center;
+  right: 38%;
+  bottom: -10px;
 }
 
 /*--------------------------------*/
@@ -228,24 +191,29 @@ button {
   text-align: left;
   margin: 10px auto 0;
   padding: 0 10px;
-  width: 770px;
+  width: 100%;
   border: 1px solid #000000;
   border-radius: 10px;
+  font-size: small;
 }
 
 .info {
   display: flex;
-  height: 70px;
+  height: 40px;
 }
 
 .main_info {
-  width: 600px;
+  width: 100%;
   display: flex;
   align-items: center;
+  font-size: 10px;
 }
 
 .time_info {
-  width: 180px;
+  width: 50px;
+  font-size: 7px;
+  display: flex;
+  align-items: center;
 }
 
 .ex {
@@ -255,8 +223,8 @@ button {
 
 .btn-submit {
   position: absolute;
-  bottom: -8px;
-  left: 45%;
+  bottom: -10px;
+  left: 40%;
   cursor: pointer;
 }
 
@@ -305,7 +273,6 @@ button {
   vertical-align: middle;
   text-decoration: none;
   border: 0;
-  border-bottom: #000000 1px solid;
   cursor: pointer;
   z-index: 100;
 }
@@ -313,38 +280,43 @@ button {
 .btn_input_anime {
   color: #000000;
   background-color: #a5a5a5;
-  border-bottom: 5px solid #6e6e6e;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-}
-
-.btn_input_anime:hover {
-  margin-top: 3px;
-  color: #000000;
-  background: #a5a5a5;
-  border-bottom: 2px solid #6e6e6e;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
 }
 
 .submit_form {
-  width: 400px;
-  height: 100px;
+  width: 100%;
   margin: 0;
+  min-height: 30px;
+  height: 30px;
 }
 
 .file_upload {
-  position: absolute;
-  width: 400px;
-  height: 0px;
-  top: 212px;
-  left: 50%;
+  position: static;
+  width: 90%;
+  margin: 0 auto;
 }
 
 .form_file_upload {
-  height: 0px;
-  min-height: 0px;
+  height: 100px;
+  width: 100%;
+  padding: 0;
+  margin: 0 auto;
+  min-height: 10px;
+  font-size: 13px;
 }
 
+.logout_form {
+  width: 75px;
+  min-height: 1px !important;
+  height: 100% !important;
+}
 
+.logout_btn {
+  width: 75px;
+  font-size: 5px;
+}
+
+.del_edit_form {
+  min-height: 30px;
+  padding-top: 12px;
+}
 /*--------------------------------*/

@@ -10,19 +10,17 @@ $obj = new StdClass();
 $urls = new StdClass();//url変数用オブジェクト
 $smarty = new Smarty();
 
-$base_url = "http://co-19-301.99sv-coco.com/kadai/kadai4";
-$top_url = $base_url . "/";
-$url_signup = $base_url . "/signup.php";
-$board_url = $base_url . "/board.php";
+$url_data = URLs();
 
-$urls->base_url = $base_url;
-$urls->top_url = $top_url;
-$urls->url_signup = $url_signup;
-$urls->board_url = $board_url;
+$urls->base_url = $url_data["base"];
+$urls->top_url = $url_data["top"];
+$urls->url_signup = $url_data["signup"];
+$urls->board_url = $url_data["board"];
+$urls->logout_url = $url_data["logout"];
 
 session_start();
 if (isset($_SESSION['user_id'])) {
-  header("location: $board_url");
+  header("location: $urls->board_url");
 }
 
 
@@ -48,7 +46,7 @@ if (isset($_POST["input_id"]) && isset($_POST["input_password"])) {
   } else {
     if ($input_password != "" && $row["password"] == $input_password) {
       $_SESSION["user_id"] = $input_id;
-      header("location: $board_url");
+      header("location: $urls->board_url");
       exit();
     } else {
       $alert_pass1 = "IDまたはパスワードが違います";
@@ -57,6 +55,17 @@ if (isset($_POST["input_id"]) && isset($_POST["input_password"])) {
 
 }
 /* -------------------------------------------------------------------------------------------- */
+
+/* ユーザーエージェント */
+$ua = $_SERVER["HTTP_USER_AGENT"];
+if((strpos($ua,"Android") !== false) && (strpos($ua,"Mobile") !== false) || (strpos($ua,"iPhone") !== false ) || (strpos($ua,"Windows Phone") !== false)){
+	$obj->user_agent="smartphone";
+}elseif((strpos($ua,"DoCoMo") !== false) || (strpos($ua,"KDDI") !== false) || (strpos($ua,"SoftBank") !== false)|| (strpos($ua,"vodafone") !== false) || (strpos($ua,"J PHONE") !== false)){
+	$obj->user_agent="mobile";
+}else{
+	$obj->user_agent="PC";
+}
+/*-------------------*/
 
 $dbh = null;
 

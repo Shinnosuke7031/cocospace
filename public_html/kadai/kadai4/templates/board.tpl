@@ -4,6 +4,14 @@
     <meta charset="UFT-8">
     <title>簡易掲示板</title>
     <link rel="stylesheet" type="text/css" href="comn/index.css">
+    {if $obj->user_agent=="smartphone"}
+    <link rel="stylesheet" type="text/css" href="comn/smartphone.css">
+    <meta name="viewport" content="width=300">
+    {/if}
+    {if $obj->user_agent=="mobile"}
+      <link rel="stylesheet" type="text/css" href="comn/smartphone.css">
+      <meta name="viewport" content="width=300">
+    {/if}
     <script type="text/javascript">
       {literal}
         function check(){
@@ -22,7 +30,7 @@
   <div class="header">
     <p> ようこそ： {$obj->user_name} さん </p>
     <h1><a href={$urls->top_url}>簡易掲示板</a></h1>
-    <form class="logout_form" action={$urls->logout_url} method="POST" >
+    <form class="logout_form" action={$urls->logout_url} method="POST">
       <button class="logout_btn btn">ログアウト</button>
     </form>
   </div>
@@ -46,13 +54,19 @@
         <input class="btn_input_anime btn_input" type="submit" value="アップロード">
       </div>
     </form>
-
+    <br/>
     <form action="board.php" method="post">
       <input type="hidden" value={$obj->isEditMode} name="JugeEditMode_inInputForm">
       <input type="hidden" value={$obj->edit_id} name="edit_id" >
-      <div class="form-element set_btn submit_form">
+      {if $obj->user_agent=="smartphone"}
+        <div class="form-element set_btn">
+      {elseif $obj->user_agent=="mobile"}
+        <div class="form-element set_btn">
+      {else}
+        <div class="form-element set_btn submit_form">
+      {/if}
         <p>コメント：</p>
-        <input type="text" name="comment" value={$obj->comment_form}>
+        <input type="text" name="comment" value="{if $obj->isEditMode}{$obj->comment_form}{else}{/if}">
         <button class="btn-submit btn" type="submit">投稿</button>
       </div>
       <div class="comment_lineup">
@@ -76,7 +90,10 @@
           {elseif $types[$key] == "mp4"}
             <div class="info main_image">
               <p class="main_info">ID : {$count} ，<span style="font-weight: bold;"> {$names[$key]} </span>
-                <video src='{$urls->import_url}?target={$fnames[$key]}' height="70" controls></video>
+                <video src='{$urls->import_url}?target={$fnames[$key]}' width="150" height="70" preload="none" controls playsinline type="video/mp4"></video>
+                {* <video width="150px" height="70px" autoplay muted playsinline controls>
+	                <source src='{$urls->import_url}?target={$fnames[$key]}' type="video/mp4">
+                </video> *}
               </p>
               <p class="time_info"> {$times[$key]} </p>
               </p>
@@ -88,22 +105,32 @@
     </form>
 
   <form class="form_mini" action="board.php" method="post" onsubmit="return check()">
+    {if $obj->sort == "up"}
+      <input type="hidden" name="up_sort2" value="昇順ソート">     
+    {elseif $obj->sort == "down"}
+      <input type="hidden" name="down_sort2" value="降順ソート">
+    {/if}
     <div class="form-element">
-      <p>削除番号：</p><input type="number" name="delete_number">
+      <p class="del_edit_form">削除番号：</p><input type="number" name="delete_number">
     </div>
     <div class="form-element set_btn">
-      <p>パスワード：</p>
+      <p class="del_edit_form">パスワード：</p>
       <input type="password" name="password_delete">
       <button class="btn-submit btn" type="submit">削除</button>
     </div>
   </form>
   <form class="form_mini" action="board.php" method="post">
+    {if $obj->sort == "up"}
+      <input type="hidden" name="up_sort2" value="昇順ソート">     
+    {elseif $obj->sort == "down"}
+      <input type="hidden" name="down_sort2" value="降順ソート">
+    {/if}
     <div class="form-element">
-      <input type="hidden" value={ $isEditMode; } name="JugeEditMode">
-      <p>編集番号：</p><input type="number" name="edit_number">
+      <input type="hidden" value={$obj->isEditMode} name="JugeEditMode">
+      <p class="del_edit_form">編集番号：</p><input type="number" name="edit_number">
     </div>
     <div class="form-element set_btn">
-      <p>パスワード：</p>
+      <p class="del_edit_form">パスワード：</p>
       <input type="password" name="password_edit">
       <button class="btn-submit btn" type="submit">番号を指定</button>
     </div>
