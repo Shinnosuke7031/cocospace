@@ -1,0 +1,88 @@
+
+.container {
+  width: 100%;
+  overflow: hidden;
+  margin: 0 auto;
+  padding: 10px 20px;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+}
+
+.box1 {
+  width: 20%;
+  float: left;
+  margin: 10px 20px;
+  padding: 10px 20px;
+  border: 1px solid #000000;
+  background-color: #a7d9e6;
+}
+
+.box2 {
+  width: 20%;
+  float: left;
+  margin: 10px 20px;
+  padding: 10px 20px;
+  border: 1px solid #000000;
+  background-color: #9ae493;
+}
+
+.box3 {
+  width: 20%;
+  float: left;
+  margin: 10px 20px;
+  padding: 10px 20px;
+  border: 1px solid #000000;
+  background-color: #e98c98;
+  /* clear: both; */
+}
+
+.btn {
+  display: inline-block;
+  width: 50%;
+}
+
+.box11 {
+  width: 20%;
+  float: left;
+  margin: 10px 20px;
+  padding: 10px 20px;
+  border: 5px dotted #000000;
+  background-color: #a7d9e6;
+}
+
+.box22 {
+  width: 20%;
+  float: left;
+  margin: 10px 20px;
+  padding: 10px 20px;
+  border: 5px double #000000;
+  background-color: #9ae493;
+}
+
+.box33 {
+  width: 20%;
+  float: left;
+  margin: 10px 20px;
+  padding: 10px 20px;
+  border: 5px dotted #000000;
+  background-color: #e98c98;
+  /* clear: both; */
+}
+
+.btn_v2 {
+  display: inline-block;
+  width: 50%;
+  border-bottom: 5px solid #928c8c;
+  transition: all 0.2s;
+}
+
+.btn_v2:hover {
+  margin-top: 3px;
+  transition: all 0.2s;
+  border-bottom: 1px solid #928c8c;
+}
