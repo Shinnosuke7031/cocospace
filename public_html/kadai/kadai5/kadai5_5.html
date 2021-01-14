@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="css/reset.css">
+  <link rel="stylesheet" type="text/css" href="css/kadai5_1.css">
+  <link rel="stylesheet" type="text/css" href="css/kadai5_2.css">
+  <link rel="stylesheet" type="text/css" href="css/kadai5_3.css">
+  <link rel="stylesheet" type="text/css" href="css/kadai5_5.css">
+  <script src="js/kadai5_4.js"></script>
+  <script src="js/kadai5_5.js"></script>
+  <title>課題5_5</title>
+</head>
+<body>
+  
+  <div class="container">
+    
+    <div class="dialpad">
+      <div class="row">
+        <p onclick="padclick(this.id)" id="n1" class="line_left line_top">1</p><p onclick="padclick(this.id)" id="n2" class="line_top">2</p><p onclick="padclick(this.id)" id="n3" class="line_right line_top">3</p>
+      </div>
+      <div class="row">
+        <p onclick="padclick(this.id)" id="n4" class="line_left">4</p><p onclick="padclick(this.id)" id="n5">5</p><p onclick="padclick(this.id)" id="n6" class="line_right">6</p>
+      </div>
+      <div class="row">
+        <p onclick="padclick(this.id)" id="n7" class="line_left">7</p><p onclick="padclick(this.id)" id="n8">8</p><p onclick="padclick(this.id)" id="n9" class="line_right">9</p>
+      </div>
+      <div class="row">
+        <p onclick="padclick(this.id)" id="n-" class="line_left line_bottom">-</p><p onclick="padclick(this.id)" id="n0" class="line_bottom">0</p><p onclick="padclick(this.id)" id="ndel" class="line_right line_bottom">消</p>
+      </div>
+    </div>
+
+    <div class="under_dialpad">
+      <p id="inputed_value"></p>
+      <button onclick="decide()">電話番号の決定</button>
+    </div>
+
+    <br/>
+
+    <p>ここからは電卓</p>
+    <div class="dialpad">
+      <div class="row">
+        <p onclick="padclick2(this.id)" id="nn1" class="line_left line_top">1</p><p onclick="padclick2(this.id)" id="nn2" class="line_top">2</p><p onclick="padclick2(this.id)" id="nn3" class="line_right line_top">3</p>
+      </div>
+      <div class="row">
+        <p onclick="padclick2(this.id)" id="nn4" class="line_left">4</p><p onclick="padclick2(this.id)" id="nn5">5</p><p onclick="padclick2(this.id)" id="nn6" class="line_right">6</p>
+      </div>
+      <div class="row">
+        <p onclick="padclick2(this.id)" id="nn7" class="line_left">7</p><p onclick="padclick2(this.id)" id="nn8">8</p><p onclick="padclick2(this.id)" id="nn9" class="line_right">9</p>
+      </div>
+      <div class="row">
+        <p onclick="padclick2(this.id)" id="nn+" class="line_left">+</p><p onclick="padclick2(this.id)" id="nn0">0</p><p onclick="padclick2(this.id)" id="nndel" class="line_right">C</p>
+      </div>
+      <div class="row">
+        <p onclick="padclick2(this.id)" id="nn-" class="line_left line_bottom">-</p><p onclick="padclick2(this.id)" id="nn/" class="line_bottom">÷</p><p onclick="padclick2(this.id)" id="nntimes" class="line_right line_bottom">×</p>
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="under_dialpad">
+    <p id="calculated_value"></p>
+    <button onclick="cal()">計算</button>
+  </div>
+  <div class="under_dialpad">
+    <p class="result_nav">結果：</p>
+    <p id="result_value"></p>
+  </div>
+  
+  <script src="js/kadai5_3.js"></script>
+  
+</body>
+</html>

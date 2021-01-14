@@ -1,0 +1,75 @@
+
+
+.dialpad {
+  width: 100%;
+  min-height: 300px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.row {
+  width: 150px;
+  height: 50px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin: 0;
+}
+
+.row p {
+  width: 50px;
+  height: 50px;
+  margin: 0;
+  border: 1px solid #000000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.line_top {
+  border-top: 2px solid #000000 !important;
+}
+.line_bottom {
+  border-bottom: 2px solid #000000 !important;
+}
+.line_left {
+  border-left: 2px solid #000000 !important;
+}
+.line_right {
+  border-right: 2px solid #000000 !important;
+}
+
+#inputed_value {
+  height: 30px;
+  width: 150px;
+  border-bottom: 1px solid #000000;
+}
+
+.under_dialpad {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+#calculated_value {
+  height: 30px;
+  min-width: 150px;
+  border-bottom: 1px solid #000000;
+}
+
+#result_value {
+  height: 30px;
+  min-width: 150px;
+  border-bottom: 1px solid #000000;
+  margin: 0;
+
+}
+
+.result_nav {
+  margin: 0;
+  height: 30px;
+  border-bottom: 1px solid #000000;
+}
