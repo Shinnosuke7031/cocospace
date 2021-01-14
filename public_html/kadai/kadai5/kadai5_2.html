@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="css/reset.css">
+  <link rel="stylesheet" type="text/css" href="css/kadai5_1.css">
+  <link rel="stylesheet" type="text/css" href="css/kadai5_2.css">
+  <script src="js/kadai5_2.js"></script>
+  <title>課題5_2</title>
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="box box1">
+      <button class="btn">BOX1</button>
+    </div>
+
+    <div class="box box2">
+      <button class="btn">BOX2</button>
+    </div>
+
+    <div class="box box3">
+      <button class="btn">BOX3</button>
+    </div>
+
+  </div>
+
+  <div class="container">
+
+    <div class="box box11">
+      <button class="btn_v2">BOX1</button> 
+    </div>
+
+    <div class="box box22">
+      <button class="btn_v2">BOX2</button>
+    </div>
+
+    <div class="box box33">
+      <button class="btn_v2">BOX3</button>
+    </div>
+
+  </div>
+
+  <p class="js_nav">ここからはJavaScriptの操作</p>
+  <p class="js_nav">以下の3つのフォームのうち、1つに入力してからボタンを押すと他の2つにも入力文字がコピーされます</p>
+
+  <div class="container">
+    <div class="box box11">
+      <input class="input_form" id="form1" type="text" value="">
+      <button id="_form1" class="btn" onclick="move_to_other(this.id)">BOX1</button>
+    </div>
+
+    <div class="box box22">
+      <input class="input_form" id="form2" type="text" value="">
+      <button id="_form2" class="btn" onclick="move_to_other(this.id)">BOX2</button>
+    </div>
+
+    <div class="box box33">
+      <input class="input_form" id="form3" type="text" value="">
+      <button id="_form3" class="btn" onclick="move_to_other(this.id)">BOX3</button>
+    </div>
+  </div>
+
+  
+</body>
+</html>
