@@ -67,7 +67,13 @@ try{
 
   // クエリの実行(SELECT)
   // $query = "SELECT * FROM user";
-  // $query = 'DELETE FROM posts WHERE id = 11';
+  // $query = 'DELETE FROM posts WHERE id = 34';
+  // $stmt = $dbh->query($query);
+  // $query = 'DELETE FROM posts WHERE id = 35';
+  // $stmt = $dbh->query($query);
+  // $query = 'DELETE FROM posts WHERE id = 36';
+  // $stmt = $dbh->query($query);
+  // $query = 'DELETE FROM posts WHERE id = 37';
   // $stmt = $dbh->query($query);
   $query = "SELECT * FROM posts";
   $stmt = $dbh->query($query);
@@ -77,7 +83,7 @@ try{
     $id = $row["id"];
     $user_id = $row["user_id"];
     $name = $row["name"];
-    $password = $row["password"];
+    // $password = $row["password"];
     // $isTemporary = $row["isTemporary"];
     // $time_temporary = $row["time_temporary"];
     // $urltoken = $row["urltoken"];

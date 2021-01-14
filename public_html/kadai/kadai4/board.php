@@ -54,6 +54,7 @@ if (!isset($_SESSION['user_id'])) {
   header("location: $urls->top_url");
 } else {
   $obj->user_id = $_SESSION["user_id"];
+  $_SESSION["view_count"] += 1;
 }
 
 $dbh = new PDO($DBinfo["dsn"], $DBinfo["user"], $DBinfo["password"]);
@@ -84,6 +85,7 @@ if (isset($_POST["comment"])) {
         $stmt = $dbh->prepare($query);
         // 実行
         $stmt->execute(array(':comment' => $comment, ':time' => $time, ':id' => $edit_id));
+        $_SESSION["view_count"] = 0;
       }catch(PDOException $e){
         print("データベースの接続に失敗しました");
         die();
@@ -119,13 +121,14 @@ if (isset($_POST["comment"])) {
                   
         // 実行
         $stmt->execute();
+        $_SESSION["view_count"] = 0;
           
       }catch(PDOException $e){
         print("データベースの接続に失敗しました".$e->getMessage());
         die();
       }
     }    
-  }  
+  }
 }
   
 /////////////////// 指定された番号のコメントを削除 ////////////////
@@ -139,16 +142,16 @@ if (isset($_POST["delete_number"]) && isset($_POST["password_delete"])) {
     // 入力された番号に対応したidを見つける
     // $query = 'SELECT * FROM kadai2_MySQL_TEST';
     $query = 'SELECT * FROM posts';
-    if (isset($_POST["up_sort2"])) {
-      if ($_POST["up_sort2"] == "昇順ソート") {
-        $query = 'SELECT * FROM posts';
-      }
-    }
-    if (isset($_POST["down_sort2"])) {
-      if ($_POST["down_sort2"] == "降順ソート") {
-        $query = 'SELECT * FROM posts ORDER BY id DESC';
-      }
-    }
+    // if (isset($_POST["up_sort2"])) {
+    //   if ($_POST["up_sort2"] == "昇順ソート") {
+    //     $query = 'SELECT * FROM posts';
+    //   }
+    // }
+    // if (isset($_POST["down_sort2"])) {
+    //   if ($_POST["down_sort2"] == "降順ソート") {
+    //     $query = 'SELECT * FROM posts ORDER BY id DESC';
+    //   }
+    // }
     $stmt = $dbh->query($query);
     $count = 0;
     $delete_id = 0;
@@ -178,7 +181,6 @@ if (isset($_POST["delete_number"]) && isset($_POST["password_delete"])) {
         $stmt = $dbh->prepare($query);
         // 実行
         $stmt->execute(array(':id' => $delete_id));
-    
       }
       else if ($password_delete_check == "") echo "<script type='text/javascript'>alert('対象のコメントがありません。');</script>"; 
       else echo "<script type='text/javascript'>alert('パスワードが違います。');</script>"; 
@@ -192,6 +194,7 @@ if (isset($_POST["delete_number"]) && isset($_POST["password_delete"])) {
     print("データベースの接続に失敗しました");
     die();
   }
+  $_SESSION["view_count"] = 0;
 }
   
 /////////////////// 指定された番号のコメントを表示(edit) ////////////////
@@ -205,16 +208,16 @@ if (isset($_POST["edit_number"]) && isset($_POST["password_edit"])) {
   try {
     // 入力された番号に対応したidを見つける
     $query = 'SELECT * FROM posts';
-    if (isset($_POST["up_sort2"])) {
-      if ($_POST["up_sort2"] == "昇順ソート") {
-        $query = 'SELECT * FROM posts';
-      }
-    }
-    if (isset($_POST["down_sort2"])) {
-      if ($_POST["down_sort2"] == "降順ソート") {
-        $query = 'SELECT * FROM posts ORDER BY id DESC';
-      }
-    }
+    // if (isset($_POST["up_sort2"])) {
+    //   if ($_POST["up_sort2"] == "昇順ソート") {
+    //     $query = 'SELECT * FROM posts';
+    //   }
+    // }
+    // if (isset($_POST["down_sort2"])) {
+    //   if ($_POST["down_sort2"] == "降順ソート") {
+    //     $query = 'SELECT * FROM posts ORDER BY id DESC';
+    //   }
+    // }
     $stmt = $dbh->query($query);
     $count = 0;
     $edit_id = 0;
@@ -254,7 +257,7 @@ if (isset($_POST["edit_number"]) && isset($_POST["password_edit"])) {
     print("データベースの接続に失敗しました");
     die();
   }
-  
+  $_SESSION["view_count"] = 0;
 }
 
 /////////////////// 動画・画像アップロード ////////////////
@@ -315,6 +318,7 @@ if (isset($_FILES['upfile']['error']) && is_int($_FILES['upfile']['error']) && $
   $stmt -> bindValue(":raw_data",$raw_data, PDO::PARAM_STR);      
   // 実行
   $stmt->execute();
+  $_SESSION["view_count"] = 0;
 }
 
 /* 表示部分 */
@@ -326,7 +330,7 @@ $times = array();
 $types = array();
 $fnames = array();
 
-if ($jsonCounts = $cache->get($cacheid_counts)) {//キャッシュあり
+if ($jsonCounts = $cache->get($cacheid_counts) && $_SESSION["view_count"] > 1) {//キャッシュあり
 
   $jsonIDs = $cache->get($cacheid_ids);
   $jsonNames = $cache->get($cacheid_names);
@@ -336,15 +340,27 @@ if ($jsonCounts = $cache->get($cacheid_counts)) {//キャッシュあり
   $jsonFnames = $cache->get($cacheid_fnames);
 
   $counts = json_decode($jsonCounts, true);
-  $ids = json_decode($jsonNames, true);
+  $ids = json_decode($jsonIDs, true);
   $names = json_decode($jsonNames, true);
   $times = json_decode($jsonTimes, true);
   $comments = json_decode($jsonComments, true);
   $types = json_decode($jsonTypes, true);
   $fnames = json_decode($jsonFnames, true);
 
-  // print_r($jsonNames);
+  // echo "<br/>";
+  // print_r($counts);
+  // echo "<br/>";
   // print_r($names);
+  // echo "<br/>";
+  // print_r($ids);
+  // echo "<br/>";
+  // print_r($times);
+  // echo "<br/>";
+  // print_r($comments);
+  // echo "<br/>";
+  // print_r($types);
+  // echo "<br/>";
+  // print_r($fnames);
   // echo "キャッシュあり";
 
 } else {//キャッシュなし
@@ -357,16 +373,16 @@ if ($jsonCounts = $cache->get($cacheid_counts)) {//キャッシュあり
     // クエリの実行(SELECT)
     /////////////////// 昇順降順切替 ////////////////
     $query = 'SELECT * FROM posts';
-    if (isset($_POST["up_sort"])) {
-      if ($_POST["up_sort"] == "昇順ソート") {
-        $query = 'SELECT * FROM posts';
-      }
-    }
-    if (isset($_POST["down_sort"])) {
-      if ($_POST["down_sort"] == "降順ソート") {
-        $query = 'SELECT * FROM posts ORDER BY id DESC';
-      }
-    }
+    // if (isset($_POST["up_sort"])) {
+    //   if ($_POST["up_sort"] == "昇順ソート") {
+    //     $query = 'SELECT * FROM posts';
+    //   }
+    // }
+    // if (isset($_POST["down_sort"])) {
+    //   if ($_POST["down_sort"] == "降順ソート") {
+    //     $query = 'SELECT * FROM posts ORDER BY id DESC';
+    //   }
+    // }
     
     $stmt = $dbh->query($query);
     // 表示処理

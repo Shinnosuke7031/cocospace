@@ -46,6 +46,7 @@ if (isset($_POST["input_id"]) && isset($_POST["input_password"])) {
   } else {
     if ($input_password != "" && $row["password"] == $input_password) {
       $_SESSION["user_id"] = $input_id;
+      $_SESSION["view_count"] = 0;
       header("location: $urls->board_url");
       exit();
     } else {

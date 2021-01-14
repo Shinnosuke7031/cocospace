@@ -39,10 +39,10 @@
 
     <h1 class="page_title">掲示板</h1>
 
-    <form class="form_sort_btn" action="board.php" method="post">
+    {* <form class="form_sort_btn" action="board.php" method="post">
       <input class="btn_input_anime btn_input" type="submit" name="up_sort" value="昇順ソート">
       <input class="btn_input_anime btn_input" type="submit" name="down_sort" value="降順ソート">
-    </form>
+    </form> *}
 
     <form class="form_file_upload" action="board.php" enctype="multipart/form-data" method="post">
       <div class="file_upload">
@@ -73,15 +73,15 @@
         <div class="info ex">
           <p class="main_info">ID : id， <span style="font-weight: bold;"> 名前 </span><span style="font-weight: bold;">「コメント」</span> </p><p class="time_info">時間</p>
         </div>
-        {foreach $counts as $key => $count}
+        {foreach $comments as $key => $comment}
 
           {if $types[$key] == "text"}
             <div class="info">
-              <p class="main_info">ID : {$count} ，<span style="font-weight: bold;"> {$names[$key]} </span><span style="font-weight: bold;">「{$comments[$key]}」</span> </p><p class="time_info"> {$times[$key]} </p>
+              <p class="main_info">ID : {$key+1} ，<span style="font-weight: bold;"> {$names[$key]} </span><span style="font-weight: bold;">「{$comment}」</span> </p><p class="time_info"> {$times[$key]} </p>
             </div>
           {elseif $types[$key] == "jpeg" || $types[$key] == "png" || $types[$key] == "gif"}
             <div class="info main_image">
-              <p class="main_info">ID : {$count} ，<span style="font-weight: bold;"> {$names[$key]} </span>
+              <p class="main_info">ID : {$key+1} ，<span style="font-weight: bold;"> {$names[$key]} </span>
                 <img class="images" src='{$urls->import_url}?target={$fnames[$key]}'>
               </p>
               <p class="time_info"> {$times[$key]} </p>
@@ -89,7 +89,7 @@
             </div>
           {elseif $types[$key] == "mp4"}
             <div class="info main_image">
-              <p class="main_info">ID : {$count} ，<span style="font-weight: bold;"> {$names[$key]} </span>
+              <p class="main_info">ID : {$key+1} ，<span style="font-weight: bold;"> {$names[$key]} </span>
                 <video src='{$urls->import_url}?target={$fnames[$key]}' width="150" height="70" preload="none" controls playsinline type="video/mp4"></video>
                 {* <video width="150px" height="70px" autoplay muted playsinline controls>
 	                <source src='{$urls->import_url}?target={$fnames[$key]}' type="video/mp4">
@@ -105,11 +105,11 @@
     </form>
 
   <form class="form_mini" action="board.php" method="post" onsubmit="return check()">
-    {if $obj->sort == "up"}
+    {* {if $obj->sort == "up"}
       <input type="hidden" name="up_sort2" value="昇順ソート">     
     {elseif $obj->sort == "down"}
       <input type="hidden" name="down_sort2" value="降順ソート">
-    {/if}
+    {/if} *}
     <div class="form-element">
       <p class="del_edit_form">削除番号：</p><input type="number" name="delete_number">
     </div>
@@ -120,11 +120,11 @@
     </div>
   </form>
   <form class="form_mini" action="board.php" method="post">
-    {if $obj->sort == "up"}
+    {* {if $obj->sort == "up"}
       <input type="hidden" name="up_sort2" value="昇順ソート">     
     {elseif $obj->sort == "down"}
       <input type="hidden" name="down_sort2" value="降順ソート">
-    {/if}
+    {/if} *}
     <div class="form-element">
       <input type="hidden" value={$obj->isEditMode} name="JugeEditMode">
       <p class="del_edit_form">編集番号：</p><input type="number" name="edit_number">
