@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="css/reset.css">
+  <link rel="stylesheet" type="text/css" href="css/kadai5_1.css">
+  <link rel="stylesheet" type="text/css" href="css/kadai5_2.css">
+  <link rel="stylesheet" type="text/css" href="css/kadai5_3.css">
+  <script src="js/kadai5_2.js"></script>
+  <title>課題5_3</title>
+</head>
+<body>
+  
+  <div class="container">
+    
+    <div id="div1" class="box box1">
+      <button id="_div1" class="btn" onclick="change_bacground(this.id)">背景を白へ</button>
+    </div>
+    
+    <div id="div2" class="box box2">
+      <button id="_div2" class="btn" onclick="change_bacground(this.id)">背景を白へ</button>
+    </div>
+    
+    <div id="div3" class="box box3">
+      <button id="_div3" class="btn" onclick="change_bacground(this.id)">背景を白へ</button>
+    </div>
+    
+  </div>
+  
+  <div class="container">
+    
+    <div id="div11" class="box box11">
+      <button id="_div11" class="btn_v2" onclick="change_border(this.id)">枠線OFF</button> 
+    </div>
+    
+    <div id="div22" class="box box22">
+      <button id="_div22" class="btn_v2" onclick="change_border(this.id)">枠線OFF</button>
+    </div>
+    
+    <div id="div33" class="box box33">
+      <button id="_div33" class="btn_v2" onclick="change_border(this.id)">枠線OFF</button>
+    </div>
+    
+  </div>
+  
+  <p class="js_nav">ここからはJavaScriptの操作</p>
+  <p class="js_nav">以下の3つのフォームのうち、1つに入力してからボタンを押すと他の2つにも入力文字がコピーされます</p>
+  
+  <div class="container">
+    <div class="box box11">
+      <input class="input_form" id="form1" type="text" value="">
+      <button id="_form1" class="btn" onclick="move_to_other(this.id)">BOX1</button>
+    </div>
+    
+    <div class="box box22">
+      <input class="input_form" id="form2" type="text" value="">
+      <button id="_form2" class="btn" onclick="move_to_other(this.id)">BOX2</button>
+    </div>
+    
+    <div class="box box33">
+      <input class="input_form" id="form3" type="text" value="">
+      <button id="_form3" class="btn" onclick="move_to_other(this.id)">BOX3</button>
+    </div>
+  </div>
+  
+  <script src="js/kadai5_3.js"></script>
+  
+</body>
+</html>
